@@ -37,6 +37,15 @@
 ;; Enable overwrite / delete highlighted region
 (delete-selection-mode t)
 
+;; Smooth scrolling settings
+(setq scroll-step 1              ;; Scroll one line at a time
+      scroll-conservatively 1000 ;; Avoid recentering cursor unnecessarily
+      scroll-margin 0            ;; No margin at the top or bottom
+      scroll-up-aggressively 0.01 ;; Minimal scroll up
+      scroll-down-aggressively 0.01 ;; Minimal scroll down
+      next-screen-context-lines 1 ;; Keep one line visible when paging
+      auto-window-vscroll nil)   ;; Disable automatic vertical scrolling
+
 (setq org-hide-emphasis-markers t)
 
 ;; Don't show emacs welcome page
@@ -69,19 +78,6 @@
   :ensure t
   :config
   (load-theme 'gruvbox-dark-hard t))
-
-;; (defun load-env-file (file)
-;;   "Load environment variables from FILE, supporting shell-style variable expansion."
-;;   (when (file-exists-p file)
-;;     (with-temp-buffer
-;;       (insert-file-contents file)
-;;       (dolist (line (split-string (buffer-string) "\n" t))
-;;         (when (string-match "\\([^=]+\\)=\\(.+\\)" line)
-;;           (let* ((key (match-string 1 line))
-;;                  (value (match-string 2 line))
-;;                  (expanded-value (substitute-env-vars value)))
-;;             (setenv key expanded-value)))))))
-;; (load-env-file (expand-file-name "~/.emacs.d/.env"))
 
 (defun my-load-env-file (file)
   "Load environment variables from FILE, supporting shell-style variable expansion.

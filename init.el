@@ -39,6 +39,7 @@
 		   "editing.el"
 		   "tools.el"
 		   "git.el"
+		   "evil.el"
 
 		   ;; ;; Language specific customizations
 		   ;; "ansible.el"
@@ -65,7 +66,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(go-projectile go-imenu go-errcheck go-dlv go-complete go-autocomplete go-add-tags go dotenv use-package))
+   '(undo-tree go-projectile go-imenu go-errcheck go-dlv go-complete go-autocomplete go-add-tags go dotenv use-package))
  '(warning-suppress-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
