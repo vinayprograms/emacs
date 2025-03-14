@@ -26,22 +26,22 @@
         '("/opt/homebrew/etc/openssl@1.1/cert.pem"))
        ; Default: no CA file
        (t nil)))
-;; Force gnutls to use TLS 1.2 only for speed and compatibility
+;; Force gnutls to use TLS
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Setup package URLs and archives, omitting those not required
 (setq package-archives
       '(("melpa-stable" . "https://stable.melpa.org/packages/")
-        ("melpa" . "https://melpa.org/packages/")
-        ("gnu" . "https://elpa.gnu.org/packages/")))
+        ("gnu" . "https://elpa.gnu.org/packages/")
+	))
 
 ;; Enable `package-quickstart` if Emacs 27 or later for faster loading
 (when (boundp 'package-quickstart)
   (setq package-quickstart t))
 
 ;; Only call `package-initialize` for Emacs 26 and earlier
-(unless (boundp 'package-quickstart)
-  (package-initialize))
+;;(unless (boundp 'package-quickstart)
+;;  (package-initialize))
 
 ;; Refresh package contents only if needed
 (unless (file-exists-p "~/.emacs.d/elpa/archives")

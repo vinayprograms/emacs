@@ -7,6 +7,7 @@
 ;;; Code:
 
 (use-package org
+  :ensure t
   :hook ((org-mode . org-bullets-mode)
          (org-mode . org-superstar-mode))
   :init
@@ -34,10 +35,31 @@
 
     ;; Add the strikethrough function to Org-mode hook
     (add-hook 'org-mode-hook #'org-toggle-strikethrough-for-completed-checkbox)
-    
+
+    (defun my-org-insert-header ()
+      "Insert default Org-mode properties header if the file is new."
+      (when (and (eq major-mode 'org-mode)
+		 (not (file-exists-p buffer-file-name)))
+	(insert "#+TITLE: <<<< TITLE >>>>
+:PROPERTIES:
+#+OPTIONS: toc:nil todo:t p:t \\n:t
+#+STARTUP: content indent align inlineimages hidestars hideblocks logrefile logdrawer logdone lognotedone logrepeat logreschedule logredeadline nologrepeat
+#+COLUMNS: %9TODO %70ITEM(Task) %11Effort(Est. Effort){:}
+#+TODO: TASK(t) PROJ(p) THOT(h) REMIND(r) MEET(m) RECUR(R) NEXT(n) STARTED(s!) WAITING(w@/!) DEFERRED(f@/!) GOAL(g@/!) | DONE(d@/!) DELEGATED(l@/!) CANCELLED(c@/!)
+#+TAGS: WORK(w) HOME(h) LEARN(l) ONLINE(o) MAC(m) IPAD(i) PHONE(p)
+#+PROPERTY: Effort_ALL 0 0:15 0:30 1:00 2:00 4:00 6:00 8:00
+#+CATEGORY: ******ENTER CATEGORY / PROJECT NAME HERE******
+:END:
+
+")
+	(goto-char (point-max)) ;; Move cursor to the end of the header
+	))
+    (add-hook 'find-file-hook #'my-org-insert-header)
+
   ;; General Org settings
   :custom
   (org-startup-indented t)
+  (org-cycle-hide-drawers 'all)
   (org-hide-leading-stars t)
   (org-adapt-indentation nil)
   (org-use-speed-commands t)
@@ -49,13 +71,16 @@
   (org-ellipsis "…")  ;; Custom ellipsis
   (org-clock-into-drawer "CLOCKING")
   (org-indent-indentation-per-level 2)
-  (org-todo-keywords '((sequence "TODO" "PROJ" "RECUR" "STARTED" "WAITING" "DEFERRED" "|" "DONE" "DELEGATED" "CANCELLED")))
-  (org-todo-keyword-faces '(("TODO" . "red")
-			    ("PROJ" . "violet") ("RECUR"."orange")
-			    ("STARTED" . "violet")
-                            ("WAITING" . "orange") ("DEFERRED" . "pink1")
-                            ("DONE" . "green3") ("DELEGATED" . "cyan2")
-                            ("CANCELLED" . "blue")))
+  ;;(org-todo-keywords '((sequence "TASK" "TODO" "PROJ" "RECUR" "STARTED" "WAITING" "DEFERRED" "|" "DONE" "DELEGATED" "CANCELLED")))
+  ;; Color for all possible keywords. Add as needed.
+  (org-todo-keyword-faces
+    '(
+      ("TODO" . "red") ("TASK" . "red")
+      ("PROJ" . "violet")
+      ("STARTED" . (:foreground "orange" :weight bold :slant oblique))
+      ("WAITING" . "orange") ("DEFERRED" . "pink1")
+      ("DONE" . "green3") ("DELEGATED" . "cyan2")
+      ("CANCELLED" . "darkgray")))
   (org-log-into-drawer t)
   (org-edit-src-content-indentation 0)
   (org-log-reschedule 'time)
@@ -80,16 +105,22 @@
 	       ((org-agenda-overriding-header "=*= INBOX =*=")
 		(org-agenda-files
 		 (list (concat (getenv "ORG_AGENDA_DIR") "/inbox.org" ) ))))
+      (todo "GOAL"
+	    ((org-agenda-overriding-header "=*= GOALS =*=")))
       (todo "STARTED"
 	    ((org-agenda-overriding-header "=*= STARTED =*=")))
       (todo "NEXT"
 	    ((org-agenda-overriding-header "=*= NEXT ACTIONS =*=")))
+      (todo "RECUR"
+	    ((org-agenda-overriding-header "=*= RECURRING =*=")))
       (todo "PROJ"
 	    ((org-agenda-overriding-header "=*= PROJECTS =*=")))
       (todo "WAITING"
 	    ((org-agenda-overriding-header "=*= WAITING FOR =*=")))
+      (todo "SPRINT-TASK"
+	    ((org-agenda-overriding-header "=*= SPRINT TASKS =*=")))
       (alltodo ""
-	       ((org-agenda-overriding-header "=*= OPEN TASKS =*=")
+	       ((org-agenda-overriding-header "=*= ALL =*=")
 		(org-agenda-sorting-strategy
 		 '(todo-state-up)))))
      nil)
@@ -120,10 +151,11 @@
       (file ,(concat (getenv "ORG_AGENDA_DIR") "/inbox.org"))
       (file ,(concat (getenv "ORG_AGENDA_DIR") "/todo/templates/project-capture.txt")))
      ))
-  (org-refile-targets '((org-agenda-files :maxlevel . 9)))
+  ;; (org-refile-targets '((org-agenda-files :maxlevel . 9)))
   (org-agenda-archives-mode t)
 
   :config
+  (define-key org-mode-map (kbd "<tab>") 'org-cycle)
   (defun my-org-agenda-switch-to ()
     "Open agenda item in a new frame if it doesn't exist; switch to it otherwise."
     (interactive)
@@ -150,6 +182,7 @@
 
 ;; Org recurring tasks
 (use-package org-recur
+  :ensure t
   :hook ((org-mode . org-recur-mode)
          (org-agenda-mode . org-recur-agenda-mode))
   :config
@@ -164,21 +197,22 @@
   :bind (("<C-s-left>" . org-tree-slide-move-previous-tree)
          ("<C-s-right>" . org-tree-slide-move-next-tree)))
 
+(use-package pdf-tools :ensure t)
+
 ;; Note-taking extension
 (use-package org-noter
   :custom (org-noter-auto-save-last-location t))
 
 ;; Bullets and superstars for Org
-(use-package org-bullets
-  )
+(use-package org-bullets :ensure t)
 
 (use-package org-superstar
+  :ensure t
+  :hook (org-mode . org-superstar-mode)
   :config
   (setq org-superstar-item-bullet-alist '((?* . ?•) (?- . ?–) (?+ . ?•))
         org-superstar-todo-bullet-alist '(("[ ]" . 9744) ("[X]" . 9745))
         org-superstar-special-todo-items t))
-
-(provide 'org)
 
 ;;; org.el ends here
 

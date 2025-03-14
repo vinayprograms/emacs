@@ -22,11 +22,23 @@
 (setq mouse-wheel-progressive-speed nil)
 
 ;;-------------------------------------
-;; Editing shortcuts
+;; Navigation shortcuts
 ;;-------------------------------------
 ;; Move between start/end of line
 (global-set-key (kbd "<s-left>") 'move-beginning-of-line)
 (global-set-key (kbd "<s-right>") 'move-end-of-line)
+
+;; Move between paragraphs
+(global-set-key (kbd "<M-up>") 'backward-paragraph)
+(global-set-key (kbd "<M-down>") 'forward-paragraph)
+
+;; Move between start/end of buffer
+(global-set-key (kbd "<s-up>") 'beginning-of-buffer)
+(global-set-key (kbd "<s-down>") 'end-of-buffer)
+
+;;-------------------------------------
+;; Editing shortcuts
+;;-------------------------------------
 
 ;; Map "copy" command to "M-w"
 (global-set-key (kbd "M-w") 'kill-ring-save)

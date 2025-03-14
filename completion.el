@@ -2,6 +2,7 @@
 (use-package ivy-hydra
   :ensure t
   :defer t
+  :after (ivy hydra)
   :bind*
   (("TAB" . 'ivy-partial)
    ("C-c C-r" . ivy-resume)
@@ -45,13 +46,6 @@
    ("C-c k" . counsel-ag)
    ("C-c l" . scounsel-locate)))
 
-;; Projectile specific minibuffer help
-(use-package counsel-projectile
-  :ensure t
-  :defer t
-  :config
-  (counsel-projectile-mode))
-
 ;; Show all matches in isearch
 (use-package swiper
   :ensure t
@@ -64,12 +58,3 @@
   :defer t
   :config
   (which-key-mode))
-
-;; Improved behaviour for 'describe-function', 'describe-variable' and 'describe-key'
-(use-package helpful
-  :ensure t
-  :defer t
-  :bind*
-  (("C-h f" . 'helpful-callable)
-   ("C-h v" . 'helpful-variable)
-   ("C-h k" . 'helpful-key)))

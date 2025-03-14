@@ -74,11 +74,6 @@
   (save-place-file (concat user-emacs-directory ".my-saved-places"))
   (save-place-forget-unreadable-files t))
 
-(use-package gruvbox-theme
-  :ensure t
-  :config
-  (load-theme 'gruvbox-dark-hard t))
-
 (defun my-load-env-file (file)
   "Load environment variables from FILE, supporting shell-style variable expansion.
 Strips quotes from values."
@@ -94,6 +89,7 @@ Strips quotes from values."
                                   "^\"\\|\"$" "" (substitute-env-vars value))))
             (setenv key stripped-value)))))))
 (my-load-env-file (expand-file-name "~/.emacs.d/.env"))
+
 
 (provide 'global-settings)
 ;;; global-settings.el ends here
