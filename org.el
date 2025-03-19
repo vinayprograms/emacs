@@ -171,17 +171,18 @@
     (define-key org-agenda-mode-map (kbd "<tab>") 'my-org-agenda-switch-to))
 
   (defun my-org-agenda-directory-filter (dir)
-    "Filter directories to exclude specific directories."
-    (not (and (string-match "\\.epub$" dir)
-              (file-directory-p dir))))
+    "Predicate function to exclude certain directories from recursive search."
+    (let ((excluded-dirs '(".epub" ".xcodeproj" ".git" "node_modules")))
+      (not (seq-some (lambda (suffix) (string-suffix-p suffix dir)) excluded-dirs))))
 
   (defun my-set-org-agenda-files ()
-    "Load all org-mode files from work directory"
+    "Load all org-mode files from work directory, excluding certain directories."
     (interactive)
     (let ((org-agenda-dir (getenv "ORG_AGENDA_DIR")))
       (if org-agenda-dir
           (setq org-agenda-files
-		(directory-files-recursively org-agenda-dir "\\.org$" 'my-org-agenda-directory-filter)))))
+                (directory-files-recursively org-agenda-dir "\\.org$" nil #'my-org-agenda-directory-filter)))))
+
   (advice-add 'org-agenda :before 'my-set-org-agenda-files)
 )
 
