@@ -39,7 +39,7 @@
 
 ;; Smooth scrolling settings
 (setq scroll-step 1              ;; Scroll one line at a time
-      scroll-conservatively 1000 ;; Avoid recentering cursor unnecessarily
+      scroll-conservatively 0    ;; Avoid recentering cursor unnecessarily
       scroll-margin 0            ;; No margin at the top or bottom
       scroll-up-aggressively 0.01 ;; Minimal scroll up
       scroll-down-aggressively 0.01 ;; Minimal scroll down

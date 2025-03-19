@@ -170,13 +170,18 @@
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "<tab>") 'my-org-agenda-switch-to))
 
+  (defun my-org-agenda-directory-filter (dir)
+    "Filter directories to exclude specific directories."
+    (not (and (string-match "\\.epub$" dir)
+              (file-directory-p dir))))
+
   (defun my-set-org-agenda-files ()
     "Load all org-mode files from work directory"
     (interactive)
     (let ((org-agenda-dir (getenv "ORG_AGENDA_DIR")))
       (if org-agenda-dir
           (setq org-agenda-files
-		(directory-files-recursively org-agenda-dir "\\.org$")))))
+		(directory-files-recursively org-agenda-dir "\\.org$" 'my-org-agenda-directory-filter)))))
   (advice-add 'org-agenda :before 'my-set-org-agenda-files)
 )
 
