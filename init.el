@@ -37,24 +37,12 @@
 		   "window-mgmt.el"
 		   "completion.el"
 		   "editing.el"
-		   "tools.el"
 		   "git.el"
 		   "evil.el"
-
-		   ;; ;; Language specific customizations
-		   ;; "ansible.el"
-		   ;; "cpp.el"
-		   "go.el"
-		   "shell.el"
-		   "markdown.el"
-		   ;; "csharp.el"
 		   "org.el"
-		   ;; "ledger.el"
-
-		   ;; ;; Language Server Protocol(LSP) & Debug Adapter Protocol(DAP)
-		   ;; "lsp-support.el"
-		   ;; "dap-support.el"
-		   "adm.el")
+		   "faces.el"
+		   "adm.el"
+		   )
   "List of files containing my Emacs customizations.")
 
 ;; Load all customikzations
@@ -68,11 +56,5 @@
  '(package-selected-packages
    '(undo-tree go-projectile go-imenu go-errcheck go-dlv go-complete go-autocomplete go-add-tags go dotenv use-package))
  '(warning-suppress-types '((comp))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 ;;; init.el ends here

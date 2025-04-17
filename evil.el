@@ -22,6 +22,10 @@
   ;; Remove interpretation of 'j' in insert mode.
   (define-key evil-insert-state-map (kbd "j") '(lambda() (interactive) (insert "j")))
 
+  (define-key evil-normal-state-map (kbd ";") #'evil-ex)
+  (define-key evil-visual-state-map (kbd ";") #'evil-ex)
+  (define-key evil-motion-state-map (kbd ";") #'evil-ex)
+
   ;; ---------- Custom commands used with leader key ----------
   (defvar my/leader-map (make-sparse-keymap)
     "My personal leader map.")
@@ -32,32 +36,33 @@
   (define-key my/leader-map (kbd "w") evil-window-map)
   ;; Replicate "Cmd + `" (macOS)
   (define-key evil-window-map (kbd "f") #'other-frame)
+  (define-key evil-window-map (kbd "d") #'delete-window)
+  (define-key evil-window-map (kbd "D") #'delete-frame)
 
-  ;; Bindings for 'help' specific functions
+  ;; ********** Bindings for 'help' specific functions *********
   (which-key-add-keymap-based-replacements my/leader-map "h" "help")
   (defvar my/leader-help-map (make-sparse-keymap)
-    "My help keymap under , h.")
+    "My help keymap under , h")
   (define-key my/leader-map (kbd "h") my/leader-help-map)
   (define-key my/leader-help-map (kbd "f") #'counsel-describe-function)
   (define-key my/leader-help-map (kbd "v") #'counsel-describe-variable)
 
-  ;; Bindings for org-mode
-  (defvar my/leader-org-map (make-sparse-keymap)
-    "My help keymap under , o.")
-  (define-key my/leader-map (kbd "o") my/leader-org-map)
-  (defun my/org-cycle-at-point ()
-    "Call `org-cycle` with point positioned at the beginning of the line."
-    (interactive)
-    (save-excursion
-      (beginning-of-line)
-      (org-cycle)))
-  (define-key my/leader-org-map (kbd "a") #'my/org-cycle-at-point)
-  
+  ;; ********** Bindings for org-mode **********
+  ;; (triggered only when org-mode is active)
+  (defun my/setup-org-evil-leader ()
+    (let ((map (make-sparse-keymap)))
+      (define-key evil-normal-state-local-map (kbd ", o") org-mode-map)
+      (define-key map (kbd "a") #'org-agenda)
+      (define-key map (kbd "c") #'my/org-cycle-at-point)))
+  (add-hook 'org-mode-hook #'my/setup-org-evil-leader)
+
+  ;; ********** Other bindings **********
+  (define-key my/leader-map (kbd ".") #'execute-extended-command)
   ;; (define-key evil-normal-state-map (kbd "ESC SPC") evil-window-map)
   ;; (define-key evil-visual-state-map (kbd "ESC SPC") evil-window-map)
   ;; (define-key evil-normal-state-map (kbd "SPC .") #'execute-extended-command)
-  ;; (define-key evil-normal-state-map (kbd "SPC x") ctl-x-map)
-  ;; (define-key evil-normal-state-map (kbd "SPC c") mode-specific-map)
+  (define-key my/leader-map (kbd "x") ctl-x-map)
+  (define-key my/leader-map (kbd "c") mode-specific-map)
   )
 
 (use-package evil-collection
