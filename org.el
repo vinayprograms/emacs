@@ -168,7 +168,7 @@
         (find-file file)
         (goto-char marker))))
   (with-eval-after-load 'org-agenda
-    (define-key org-agenda-mode-map (kbd "<tab>") 'my-org-agenda-switch-to))
+    (evil-define-key 'motion org-agenda-mode-map (kbd "<tab>") 'my-org-agenda-switch-to))
 
   (defun my-org-agenda-directory-filter (dir)
     "Predicate function to exclude certain directories from recursive search."

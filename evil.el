@@ -49,27 +49,62 @@
 
   ;; ********** Bindings for org-mode **********
   ;; (triggered only when org-mode is active)
+  (defun my/org-insert-todo-heading-after ()
+    "Insert a new TODO heading below the current line."
+    (interactive)
+    (end-of-line)
+    (org-insert-todo-heading nil))  ; nil means insert after
+
+  (defun my/org-insert-todo-heading-before ()
+    "Insert a new TODO heading above the current line."
+    (interactive)
+    (beginning-of-line)
+    (org-insert-todo-heading t))    ; t means insert before
+
+  (defun my/org-insert-heading-after ()
+    "Insert a new heading below the current line."
+    (interactive)
+    (end-of-line)
+    (org-insert-heading nil))
+
+  (defun my/org-insert-heading-before ()
+    "Insert a new heading above the current line."
+    (interactive)
+    (beginning-of-line)
+    (org-insert-heading t))
+
   (defun my/setup-org-evil-leader ()
     (let ((map (make-sparse-keymap)))
-      ;;(define-key evil-normal-state-local-map (kbd ", o") org-mode-map)
       (define-key my/leader-map (kbd "o") map)
       (define-key map (kbd "a") #'org-agenda)
       (define-key map (kbd "<tab>") #'my/org-cycle-at-point)
       (define-key map (kbd "c") #'org-ctrl-c-ctrl-c)
       (define-key map (kbd "k") #'org-kill-note-or-show-branches)
       (define-key map (kbd "t") #'org-todo)
+      ;; 'o' style (after)
+      (define-key map (kbd "o t") #'my/org-insert-todo-heading-after)
+      (define-key map (kbd "o h") #'my/org-insert-heading-after)
+      ;; 'O' style (before)
+      (define-key map (kbd "O t") #'my/org-insert-todo-heading-before)
+      (define-key map (kbd "O h") #'my/org-insert-heading-before)
+      ;; Emacs-style (in-place)
       (define-key map (kbd "I t") #'org-insert-todo-heading)
       (define-key map (kbd "i t") #'org-insert-todo-heading-respect-content)
       (define-key map (kbd "I h") #'org-insert-heading)
       (define-key map (kbd "i h") #'org-insert-heading-respect-content)
+ 
       (define-key map (kbd "s") #'org-schedule)
       (define-key map (kbd "d") #'org-deadline)
       ))
   (add-hook 'org-mode-hook #'my/setup-org-evil-leader)
-  ;; Use vim keybindings inside calendar used
-  ;; for `org-schedule` and `org-deadline`.
 
-
+  ;; ********** Bindings for ivy minibuffer **********
+  (with-eval-after-load 'ivy
+    (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-next-line)
+    (define-key ivy-minibuffer-map (kbd "C-k") #'ivy-previous-line)
+    (define-key ivy-minibuffer-map (kbd "M-j") #'ivy-next-line)
+    (define-key ivy-minibuffer-map (kbd "M-k") #'ivy-previous-line))
+ 
   ;; ********** Other bindings **********
   (define-key my/leader-map (kbd ".") #'execute-extended-command)
   ;; (define-key evil-normal-state-map (kbd "ESC SPC") evil-window-map)
@@ -77,6 +112,8 @@
   ;; (define-key evil-normal-state-map (kbd "SPC .") #'execute-extended-command)
   (define-key my/leader-map (kbd "x") ctl-x-map)
   (define-key my/leader-map (kbd "c") mode-specific-map)
+  (evil-ex-define-cmd "e" #'counsel-find-file)
+
   )
 
 (use-package evil-collection
