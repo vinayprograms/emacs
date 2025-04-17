@@ -51,10 +51,24 @@
   ;; (triggered only when org-mode is active)
   (defun my/setup-org-evil-leader ()
     (let ((map (make-sparse-keymap)))
-      (define-key evil-normal-state-local-map (kbd ", o") org-mode-map)
+      ;;(define-key evil-normal-state-local-map (kbd ", o") org-mode-map)
+      (define-key my/leader-map (kbd "o") map)
       (define-key map (kbd "a") #'org-agenda)
-      (define-key map (kbd "c") #'my/org-cycle-at-point)))
+      (define-key map (kbd "<tab>") #'my/org-cycle-at-point)
+      (define-key map (kbd "c") #'org-ctrl-c-ctrl-c)
+      (define-key map (kbd "k") #'org-kill-note-or-show-branches)
+      (define-key map (kbd "t") #'org-todo)
+      (define-key map (kbd "I t") #'org-insert-todo-heading)
+      (define-key map (kbd "i t") #'org-insert-todo-heading-respect-content)
+      (define-key map (kbd "I h") #'org-insert-heading)
+      (define-key map (kbd "i h") #'org-insert-heading-respect-content)
+      (define-key map (kbd "s") #'org-schedule)
+      (define-key map (kbd "d") #'org-deadline)
+      ))
   (add-hook 'org-mode-hook #'my/setup-org-evil-leader)
+  ;; Use vim keybindings inside calendar used
+  ;; for `org-schedule` and `org-deadline`.
+
 
   ;; ********** Other bindings **********
   (define-key my/leader-map (kbd ".") #'execute-extended-command)
