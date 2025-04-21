@@ -53,37 +53,44 @@
     "Insert a new TODO heading below the current line."
     (interactive)
     (end-of-line)
-    (org-insert-todo-heading nil))  ; nil means insert after
+    (org-insert-todo-heading nil)  ; nil means insert after
+    (evil-insert-state))
 
   (defun my/org-insert-todo-heading-before ()
     "Insert a new TODO heading above the current line."
     (interactive)
     (beginning-of-line)
-    (org-insert-todo-heading t))    ; t means insert before
+    (org-insert-todo-heading t)    ; t means insert before
+    (evil-insert-state))
 
   (defun my/org-insert-heading-after ()
     "Insert a new heading below the current line."
     (interactive)
     (end-of-line)
-    (org-insert-heading nil))
+    (org-insert-heading nil)
+    (evil-insert-state))
 
   (defun my/org-insert-heading-before ()
     "Insert a new heading above the current line."
     (interactive)
     (beginning-of-line)
-    (org-insert-heading t))
+    (org-insert-heading t)
+    (evil-insert-state))
 
   (defun my/setup-org-evil-leader ()
     (let ((map (make-sparse-keymap)))
       (define-key my/leader-map (kbd "o") map)
       (define-key map (kbd "a") #'org-agenda)
+      (define-key map (kbd "f") #'org-agenda-later)
+      (define-key map (kbd "b") #'org-agenda-earlier)
       (define-key map (kbd "<tab>") #'my/org-cycle-at-point)
-      (define-key map (kbd "c") #'org-ctrl-c-ctrl-c)
-      (define-key map (kbd "k") #'org-kill-note-or-show-branches)
+      (define-key map (kbd "c c") #'org-ctrl-c-ctrl-c)
+      (define-key map (kbd "c k") #'org-kill-note-or-show-branches)
       (define-key map (kbd "t") #'org-todo)
       ;; 'o' style (after)
       (define-key map (kbd "o t") #'my/org-insert-todo-heading-after)
       (define-key map (kbd "o h") #'my/org-insert-heading-after)
+      (define-key map (kbd "o i") #'org-insert-item)
       ;; 'O' style (before)
       (define-key map (kbd "O t") #'my/org-insert-todo-heading-before)
       (define-key map (kbd "O h") #'my/org-insert-heading-before)
@@ -95,6 +102,9 @@
  
       (define-key map (kbd "s") #'org-schedule)
       (define-key map (kbd "d") #'org-deadline)
+
+      (define-key map (kbd "c i") #'org-clock-in)
+      (define-key map (kbd "c o") #'org-clock-out)
       ))
   (add-hook 'org-mode-hook #'my/setup-org-evil-leader)
 
