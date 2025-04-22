@@ -87,6 +87,7 @@
       (define-key map (kbd "c c") #'org-ctrl-c-ctrl-c)
       (define-key map (kbd "c k") #'org-kill-note-or-show-branches)
       (define-key map (kbd "t") #'org-todo)
+      (define-key map (kbd "t") #'org-agenda-todo)
       ;; 'o' style (after)
       (define-key map (kbd "o t") #'my/org-insert-todo-heading-after)
       (define-key map (kbd "o h") #'my/org-insert-heading-after)
