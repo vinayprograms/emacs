@@ -45,7 +45,7 @@
 #+OPTIONS: toc:nil todo:t p:t \\n:t
 #+STARTUP: content indent align inlineimages hidestars hideblocks logrefile logdrawer logdone lognotedone logrepeat logreschedule logredeadline nologrepeat
 #+COLUMNS: %9TODO %70ITEM(Task) %11Effort(Est. Effort){:}
-#+TODO: TASK(t) PROJ(p) THOT(h) REMIND(r) MEET(m) RECUR(R) NEXT(n) STARTED(s!) WAITING(w@/!) DEFERRED(f@/!) GOAL(g@/!) | DONE(d@/!) DELEGATED(l@/!) CANCELLED(c@/!)
+#+TODO: TASK(t) WAITING(w@/!) DEFERRED(f@/!) | DONE(d@/!) DELEGATED(l@/!) CANCELLED(c@/!)
 #+TAGS: WORK(w) HOME(h) LEARN(l) ONLINE(o) MAC(m) IPAD(i) PHONE(p)
 #+PROPERTY: Effort_ALL 0 0:15 0:30 1:00 2:00 4:00 6:00 8:00
 #+CATEGORY: ******ENTER CATEGORY / PROJECT NAME HERE******

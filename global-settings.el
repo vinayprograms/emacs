@@ -29,10 +29,17 @@
 ;; Highlight the current line
 (global-hl-line-mode 1)
 
-;; Show line number in all buffers
-;;(global-display-line-numbers-mode)
+;; Show relative line number in programming buffers
+(setq display-line-numbers-type 'relative)
 
-;; enable highlighting colors when a piece is text is selected (for copy/cut)
+(defun my-enable-line-numbers ()
+  "Enable relative line numbers only for programming modes."
+  (when (derived-mode-p 'prog-mode)
+    (display-line-numbers-mode 1)))
+
+(add-hook 'after-change-major-mode-hook #'my-enable-line-numbers)
+
+;; enable highlighting colors when a piece of text is selected (for copy/cut)
 (transient-mark-mode 1)
 ;; Enable overwrite / delete highlighted region
 (delete-selection-mode t)
@@ -90,6 +97,34 @@ Strips quotes from values."
             (setenv key stripped-value)))))))
 (my-load-env-file (expand-file-name "~/.emacs.d/.env"))
 
+
+;; Kill special buffers that don't map to a specific file
+(setq my-auto-kill-buffer-patterns
+      '("^\\*scratch\\*$"
+        "^\\*Messages\\*$"
+        "^\\*Backtrace\\*$"
+        "^\\*Help\\*$"
+        "^\\*Warnings\\*$"
+        "^\\*Compile-Log\\*$"))
+
+(defun my-buffer-should-auto-kill-p (buffer)
+  "Return non-nil if BUFFER should be auto-killed."
+  (let ((name (buffer-name buffer)))
+    (and (cl-some (lambda (pattern)
+                    (string-match-p pattern name))
+                  my-auto-kill-buffer-patterns)
+         (not (eq buffer (current-buffer))) ;; not the one you're using
+         (not (get-buffer-window buffer 'visible))))) ;; not visible anywhere
+
+(defun my-kill-unused-special-buffers ()
+  "Kill unused special buffers matching user-defined patterns."
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (when (my-buffer-should-auto-kill-p buffer)
+      (kill-buffer buffer))))
+
+;; Optional: Run it every minute
+(run-at-time "1 min" 60 #'my-kill-unused-special-buffers)
 
 (provide 'global-settings)
 ;;; global-settings.el ends here

@@ -11,7 +11,7 @@
   :init (setq evil-want-integration t
 	      evil-want-keybinding nil)
   :config (evil-mode t)
-  
+
   ;; Change evil's redo mapping
   (evil-set-undo-system 'undo-redo)
 
@@ -22,9 +22,9 @@
   ;; Remove interpretation of 'j' in insert mode.
   (define-key evil-insert-state-map (kbd "j") '(lambda() (interactive) (insert "j")))
 
-  (define-key evil-normal-state-map (kbd ";") #'evil-ex)
-  (define-key evil-visual-state-map (kbd ";") #'evil-ex)
-  (define-key evil-motion-state-map (kbd ";") #'evil-ex)
+  ;; (define-key evil-normal-state-map (kbd ";") #'evil-ex)
+  ;; (define-key evil-visual-state-map (kbd ";") #'evil-ex)
+  ;; (define-key evil-motion-state-map (kbd ";") #'evil-ex)
 
   ;; ---------- Custom commands used with leader key ----------
   (defvar my/leader-map (make-sparse-keymap)
@@ -80,14 +80,16 @@
   (defun my/setup-org-evil-leader ()
     (let ((map (make-sparse-keymap)))
       (define-key my/leader-map (kbd "o") map)
-      (define-key map (kbd "a") #'org-agenda)
+      ;; Org-mode / Org-agenda specific shortcuts.
+      (define-key map (kbd "a a") #'org-agenda)
       (define-key map (kbd "f") #'org-agenda-later)
       (define-key map (kbd "b") #'org-agenda-earlier)
       (define-key map (kbd "<tab>") #'my/org-cycle-at-point)
+      (define-key map (kbd "a o") #'org-agenda-goto)
       (define-key map (kbd "c c") #'org-ctrl-c-ctrl-c)
       (define-key map (kbd "c k") #'org-kill-note-or-show-branches)
       (define-key map (kbd "t") #'org-todo)
-      (define-key map (kbd "t") #'org-agenda-todo)
+      (define-key map (kbd "a t") #'org-agenda-todo)
       ;; 'o' style (after)
       (define-key map (kbd "o t") #'my/org-insert-todo-heading-after)
       (define-key map (kbd "o h") #'my/org-insert-heading-after)
@@ -102,7 +104,9 @@
       (define-key map (kbd "i h") #'org-insert-heading-respect-content)
  
       (define-key map (kbd "s") #'org-schedule)
+      (define-key map (kbd "a s") #'org-agenda-schedule)
       (define-key map (kbd "d") #'org-deadline)
+      (define-key map (kbd "a d") #'org-agenda-deadline)
 
       (define-key map (kbd "c i") #'org-clock-in)
       (define-key map (kbd "c o") #'org-clock-out)
@@ -124,7 +128,7 @@
   (define-key my/leader-map (kbd "x") ctl-x-map)
   (define-key my/leader-map (kbd "c") mode-specific-map)
   (evil-ex-define-cmd "e" #'counsel-find-file)
-
+  (define-key evil-normal-state-map (kbd "z o") #'org-cycle)
   )
 
 (use-package evil-collection
