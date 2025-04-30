@@ -16,15 +16,13 @@
   (evil-set-undo-system 'undo-redo)
 
   (define-key evil-normal-state-map (kbd "R") 'evil-redo)
-  ;; Remap 'D' to delete whole line
-  ;;(define-key evil-normal-state-map (kbd "D") 'evil-delete-whole-line)
 
   ;; Remove interpretation of 'j' in insert mode.
   (define-key evil-insert-state-map (kbd "j") '(lambda() (interactive) (insert "j")))
 
-  ;; (define-key evil-normal-state-map (kbd ";") #'evil-ex)
-  ;; (define-key evil-visual-state-map (kbd ";") #'evil-ex)
-  ;; (define-key evil-motion-state-map (kbd ";") #'evil-ex)
+  ;; Use '/' for local swiper search and 'g /' for global swiper search
+  (define-key evil-normal-state-map (kbd "/") #'swiper)
+  (define-key evil-normal-state-map (kbd "g /") #'swiper-all)
 
   ;; ---------- Custom commands used with leader key ----------
   (defvar my/leader-map (make-sparse-keymap)
