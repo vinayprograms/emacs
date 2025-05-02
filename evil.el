@@ -75,6 +75,7 @@
     (org-insert-heading t)
     (evil-insert-state))
 
+  ;; Custom evil bindings for org-mode
   (defun my/setup-org-evil-leader ()
     (let ((map (make-sparse-keymap)))
       (define-key my/leader-map (kbd "o") map)
@@ -111,6 +112,16 @@
       ))
   (add-hook 'org-mode-hook #'my/setup-org-evil-leader)
 
+  ;; ********** Custom evil bindings for AI/LLM **********
+  (defvar my/ai-map (make-sparse-keymap))
+  (define-key my/ai-map (kbd "q") #'chatgpt-shell-quick-insert)
+  (define-key my/ai-map (kbd "c") #'chatgpt-shell-prompt-compose)
+  (define-key my/ai-map (kbd "s") #'chatgpt-shell)
+  (define-key my/ai-map (kbd "d") #'chatgpt-shell-describe-code)
+  (define-key my/ai-map (kbd "g") #'chatgpt-shell-write-git-commit)
+  (define-key my/ai-map (kbd "<RET>") #'chatgpt-shell-prompt-compose-send-buffer)
+  (define-key my/leader-map (kbd "a") my/ai-map)
+
   ;; ********** Bindings for ivy minibuffer **********
   (with-eval-after-load 'ivy
     (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-next-line)
@@ -126,7 +137,7 @@
   (define-key my/leader-map (kbd "x") ctl-x-map)
   (define-key my/leader-map (kbd "c") mode-specific-map)
   (evil-ex-define-cmd "e" #'counsel-find-file)
-  (define-key evil-normal-state-map (kbd "z o") #'org-cycle)
+  (define-key evil-normal-state-map (kbd "z x") #'org-cycle)
   )
 
 (use-package evil-collection
