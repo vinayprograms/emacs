@@ -6,6 +6,7 @@
       (scroll-bar-mode -1))
   (menu-bar-mode -1))
 
+(setq-default tab-width 2)
 
 ;; Show the file name and major mode in the title bar. This doesn't apply to emacs launched in Terminal.
 (setq-default frame-title-format '("%b [%m]"))

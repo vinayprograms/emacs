@@ -27,8 +27,8 @@
 
 ; This snippet configures the chatgpt-shell package and sets the model version.
 (use-package chatgpt-shell
-  :straight (:type git :host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell*.el"))
-  :config
-  (setq chatgpt-shell-model-version "gemma3:12b"))
+  :straight (:type git :host github :repo "xenodium/chatgpt-shell" :files ("chatgpt-shell*.el")))
+(chatgpt-shell-ollama-load-models)
+(setq chatgpt-shell-model-version (getenv "AI_MODEL"))
 
 ;;; ai.el ends here
