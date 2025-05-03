@@ -74,6 +74,7 @@
 
 ;; Start cursor at the position where it was when file was previously opened
 (use-package saveplace
+	:straight t
   :init
   (save-place-mode 1)
   :config
@@ -106,7 +107,8 @@ Strips quotes from values."
         "^\\*Backtrace\\*$"
         "^\\*Help\\*$"
         "^\\*Warnings\\*$"
-        "^\\*Compile-Log\\*$"))
+        "^\\*Compile-Log\\*$"
+				"\\*.*\\*"))
 
 (defun my-buffer-should-auto-kill-p (buffer)
   "Return non-nil if BUFFER should be auto-killed."

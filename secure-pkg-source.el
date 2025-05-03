@@ -22,16 +22,18 @@
 	; macOS (MacPorts)
         '("/usr/local/etc/openssl/cert.pem"))
        ; macOS with Homebrew (Apple Silicon)
-       ((file-exists-p "/opt/homebrew/etc/openssl@1.1/cert.pem")
-        '("/opt/homebrew/etc/openssl@1.1/cert.pem"))
+       ((file-exists-p "/opt/homebrew/etc/openssl@3/cert.pem")
+        '("/opt/homebrew/etc/openssl@3/cert.pem"))
        ; Default: no CA file
-       (t nil)))
+       ;;       (t nil)
+       ))
 ;; Force gnutls to use TLS
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Setup package URLs and archives, omitting those not required
 (setq package-archives
       '(("melpa-stable" . "https://stable.melpa.org/packages/")
+				("melpa" . "https://melpa.org/packages/")
         ("gnu" . "https://elpa.gnu.org/packages/")
 	))
 
@@ -45,5 +47,5 @@
 
 ;; Refresh package contents only if needed
 (unless (file-exists-p "~/.emacs.d/elpa/archives")
-  (package-refresh-contents)
-  (package-initialize))
+		(package-refresh-contents)
+		(package-initialize))

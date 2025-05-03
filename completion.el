@@ -1,6 +1,6 @@
 ;; Ivy - Generic completion mechanism for emacs
 (use-package ivy-hydra
-  :ensure t
+  :straight t
   :defer t
   :after (ivy hydra)
   :bind*
@@ -31,7 +31,7 @@
 
 ;; Help with minibuffer (keyboard shortcuts, commands, etc.)
 (use-package counsel
-  :ensure t
+  :straight t
   :defer t
   :bind*
   (("M-x" . counsel-M-x)
@@ -48,13 +48,13 @@
 
 ;; Show all matches in isearch
 (use-package swiper
-  :ensure t
+  :straight t
   :defer t
   :bind ("C-s" . swiper))
 
 ;; Add tooltip for commands used with C-x and C-c
 (use-package which-key
-  :ensure t
+  :straight t
   :defer t
   :config
   (which-key-mode))
