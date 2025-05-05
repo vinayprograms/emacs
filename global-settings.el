@@ -6,6 +6,7 @@
       (scroll-bar-mode -1))
   (menu-bar-mode -1))
 
+(setq-default tab-width 2)
 
 ;; Show the file name and major mode in the title bar. This doesn't apply to emacs launched in Terminal.
 (setq-default frame-title-format '("%b [%m]"))
@@ -73,6 +74,7 @@
 
 ;; Start cursor at the position where it was when file was previously opened
 (use-package saveplace
+	:straight t
   :init
   (save-place-mode 1)
   :config
@@ -99,32 +101,33 @@ Strips quotes from values."
 
 
 ;; Kill special buffers that don't map to a specific file
-(setq my-auto-kill-buffer-patterns
-      '("^\\*scratch\\*$"
-        "^\\*Messages\\*$"
-        "^\\*Backtrace\\*$"
-        "^\\*Help\\*$"
-        "^\\*Warnings\\*$"
-        "^\\*Compile-Log\\*$"))
+;; (setq my-auto-kill-buffer-patterns
+;;       '("^\\*scratch\\*$"
+;;         "^\\*Messages\\*$"
+;;         "^\\*Backtrace\\*$"
+;;         "^\\*Help\\*$"
+;;         "^\\*Warnings\\*$"
+;;         "^\\*Compile-Log\\*$"
+;; 				"\\*.*\\*"))
 
-(defun my-buffer-should-auto-kill-p (buffer)
-  "Return non-nil if BUFFER should be auto-killed."
-  (let ((name (buffer-name buffer)))
-    (and (cl-some (lambda (pattern)
-                    (string-match-p pattern name))
-                  my-auto-kill-buffer-patterns)
-         (not (eq buffer (current-buffer))) ;; not the one you're using
-         (not (get-buffer-window buffer 'visible))))) ;; not visible anywhere
+;; (defun my-buffer-should-auto-kill-p (buffer)
+;;   "Return non-nil if BUFFER should be auto-killed."
+;;   (let ((name (buffer-name buffer)))
+;;     (and (cl-some (lambda (pattern)
+;;                     (string-match-p pattern name))
+;;                   my-auto-kill-buffer-patterns)
+;;          (not (eq buffer (current-buffer))) ;; not the one you're using
+;;          (not (get-buffer-window buffer 'visible))))) ;; not visible anywhere
 
-(defun my-kill-unused-special-buffers ()
-  "Kill unused special buffers matching user-defined patterns."
-  (interactive)
-  (dolist (buffer (buffer-list))
-    (when (my-buffer-should-auto-kill-p buffer)
-      (kill-buffer buffer))))
+;; (defun my-kill-unused-special-buffers ()
+;;   "Kill unused special buffers matching user-defined patterns."
+;;   (interactive)
+;;   (dolist (buffer (buffer-list))
+;;     (when (my-buffer-should-auto-kill-p buffer)
+;;       (kill-buffer buffer))))
 
-;; Optional: Run it every minute
-(run-at-time "1 min" 60 #'my-kill-unused-special-buffers)
+;; ;; Optional: Run it every minute
+;; (run-at-time "1 min" 60 #'my-kill-unused-special-buffers)
 
 (provide 'global-settings)
 ;;; global-settings.el ends here

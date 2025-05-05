@@ -7,7 +7,7 @@
 ;;; Code:
 
 (use-package evil
-  :ensure t
+  :straight t
   :init (setq evil-want-integration t
 	      evil-want-keybinding nil)
   :config (evil-mode t)
@@ -15,10 +15,12 @@
   ;; Change evil's redo mapping
   (evil-set-undo-system 'undo-redo)
 
+	;;(evil-set-leader 'normal (kbd "SPC"))
+
   (define-key evil-normal-state-map (kbd "R") 'evil-redo)
 
   ;; Remove interpretation of 'j' in insert mode.
-  (define-key evil-insert-state-map (kbd "j") '(lambda() (interactive) (insert "j")))
+  (define-key evil-insert-state-map (kbd "j") #'(lambda() (interactive) (insert "j")))
 
   ;; Use '/' for local swiper search and 'g /' for global swiper search
   (define-key evil-normal-state-map (kbd "/") #'swiper)
@@ -27,15 +29,26 @@
   ;; ---------- Custom commands used with leader key ----------
   (defvar my/leader-map (make-sparse-keymap)
     "My personal leader map.")
-  (define-key evil-normal-state-map (kbd ",") my/leader-map)
-  (define-key evil-visual-state-map (kbd ",") my/leader-map)
-  (define-key evil-motion-state-map (kbd ",") my/leader-map)
+  (define-key evil-normal-state-map (kbd "SPC") my/leader-map)
+  (define-key evil-visual-state-map (kbd "SPC") my/leader-map)
+  (define-key evil-motion-state-map (kbd "SPC") my/leader-map)
+	(with-eval-after-load 'org-agenda
+		(define-key org-agenda-mode-map (kbd "SPC") my/leader-map))
 
+  ;; ********** Bindings for 'window' specific functions *********
   (define-key my/leader-map (kbd "w") evil-window-map)
   ;; Replicate "Cmd + `" (macOS)
   (define-key evil-window-map (kbd "f") #'other-frame)
   (define-key evil-window-map (kbd "d") #'delete-window)
   (define-key evil-window-map (kbd "D") #'delete-frame)
+
+  ;; ********** Bindings for 'buffer' specific functions *********
+  (defvar my/buffer-map (make-sparse-keymap))
+  (define-key my/leader-map (kbd "b") my/buffer-map)
+  (define-key my/buffer-map (kbd "n") #'next-buffer)
+  (define-key my/buffer-map (kbd "p") #'previous-buffer)
+  (define-key my/buffer-map (kbd "d") #'kill-buffer)
+  (define-key my/buffer-map (kbd "b") #'list-buffers)
 
   ;; ********** Bindings for 'help' specific functions *********
   (which-key-add-keymap-based-replacements my/leader-map "h" "help")
@@ -131,37 +144,29 @@
  
   ;; ********** Other bindings **********
   (define-key my/leader-map (kbd ".") #'execute-extended-command)
-  ;; (define-key evil-normal-state-map (kbd "ESC SPC") evil-window-map)
-  ;; (define-key evil-visual-state-map (kbd "ESC SPC") evil-window-map)
-  ;; (define-key evil-normal-state-map (kbd "SPC .") #'execute-extended-command)
   (define-key my/leader-map (kbd "x") ctl-x-map)
   (define-key my/leader-map (kbd "c") mode-specific-map)
   (evil-ex-define-cmd "e" #'counsel-find-file)
-  (define-key evil-normal-state-map (kbd "z x") #'org-cycle)
+  (define-key evil-normal-state-map (kbd "z ;") #'org-cycle)
   )
 
 (use-package evil-collection
   :after evil
-  :ensure t
+  :straight t
+	:defer t
   :init
   (evil-collection-init))
 
 (use-package evil-org
   :after evil org
-  :ensure t
+  :straight t
+	:defer t
   :hook ((org-mode . evil-org-mode))
   :init
   (unless (fboundp 'evil-redirect-digit-argument)
     (defalias 'evil-redirect-digit-argument 'ignore))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
-  (defun my/evil-org-log-note-keys ()
-    "Define Vim-style keys for log note and capture confirmation."
-    (evil-local-set-key 'normal (kbd "SPC c c") #'org-ctrl-c-ctrl-c)
-    (evil-local-set-key 'normal (kbd "SPC c k") #'org-ctrl-c-ctrl-k)
-    (evil-local-set-key 'normal (kbd "SPC x") ctl-x-map)
-    (evil-local-set-key 'motion (kbd "SPC x") ctl-x-map))
+	(evil-define-key 'motion org-agenda-mode-map (kbd "SPC") my/leader-map))
 
-  (add-hook 'org-log-buffer-setup-hook #'my/evil-org-log-note-keys)
-  (add-hook 'org-capture-mode-hook #'my/evil-org-log-note-keys))
 ;;; evil.el ends here

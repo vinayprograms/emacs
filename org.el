@@ -6,8 +6,10 @@
 
 ;;; Code:
 
+;; ********** Org Mode, the best part of Emacs **********
 (use-package org
-  :ensure t
+  :straight t
+	:defer t
   :hook ((org-mode . org-bullets-mode)
          (org-mode . org-superstar-mode))
   :init
@@ -86,15 +88,8 @@
   (org-log-reschedule 'time)
   (org-modules
    '(ol-bbdb ol-bibtex ol-docview ol-eww ol-gnus org-habit ol-info ol-irc ol-mhe ol-rmail ol-w3m))
-  :bind (("\C-cl" . org-store-link)
-         ("\C-ca" . org-agenda)
-         ("\C-cc" . org-capture))
-  )
 
-;; Org Agenda settings, loaded after Org
-(use-package org-agenda
-  :after org
-  :custom
+;; ********** Org Agenda Mode, the best companion to org-mode **********
   (org-agenda-start-with-clockreport-mode t)
   (org-agenda-clockreport-parameter-plist '(:link t :maxlevel 8 :compact t :stepskip0 t :fileskip0 t))
   (org-agenda-custom-commands
@@ -154,8 +149,9 @@
   ;; (org-refile-targets '((org-agenda-files :maxlevel . 9)))
   (org-agenda-archives-mode t)
 
-  :config
-  (define-key org-mode-map (kbd "<tab>") 'org-cycle)
+	:config
+	;; ********** Org Agenda Mode, the best companion to org-mode **********
+	  (define-key org-mode-map (kbd "<tab>") 'org-cycle)
   (defun my-org-agenda-switch-to ()
     "Open agenda item in a new frame if it doesn't exist; switch to it otherwise."
     (interactive)
@@ -184,11 +180,16 @@
                 (directory-files-recursively org-agenda-dir "\\.org$" nil #'my-org-agenda-directory-filter)))))
 
   (advice-add 'org-agenda :before 'my-set-org-agenda-files)
-)
+	
+	:bind (("\C-cl" . org-store-link)
+         ("\C-ca" . org-agenda)
+         ("\C-cc" . org-capture))
+  )
 
 ;; Org recurring tasks
 (use-package org-recur
-  :ensure t
+  :straight t
+	:defer t
   :hook ((org-mode . org-recur-mode)
          (org-agenda-mode . org-recur-agenda-mode))
   :config
@@ -200,20 +201,25 @@
 
 ;; Show org files as slides
 (use-package org-tree-slide
+	:straight t
+	:defer t
   :bind (("<C-s-left>" . org-tree-slide-move-previous-tree)
          ("<C-s-right>" . org-tree-slide-move-next-tree)))
 
-(use-package pdf-tools :ensure t)
+(use-package pdf-tools :straight t :defer t)
 
 ;; Note-taking extension
 (use-package org-noter
+	:straight t
+	:defer t
   :custom (org-noter-auto-save-last-location t))
 
 ;; Bullets and superstars for Org
-(use-package org-bullets :ensure t)
+(use-package org-bullets :straight t :defer t)
 
 (use-package org-superstar
-  :ensure t
+  :straight t
+	:defer t
   :hook (org-mode . org-superstar-mode)
   :config
   (setq org-superstar-item-bullet-alist '((?* . ?•) (?- . ?–) (?+ . ?•))
