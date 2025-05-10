@@ -99,35 +99,5 @@ Strips quotes from values."
             (setenv key stripped-value)))))))
 (my-load-env-file (expand-file-name "~/.emacs.d/.env"))
 
-
-;; Kill special buffers that don't map to a specific file
-;; (setq my-auto-kill-buffer-patterns
-;;       '("^\\*scratch\\*$"
-;;         "^\\*Messages\\*$"
-;;         "^\\*Backtrace\\*$"
-;;         "^\\*Help\\*$"
-;;         "^\\*Warnings\\*$"
-;;         "^\\*Compile-Log\\*$"
-;; 				"\\*.*\\*"))
-
-;; (defun my-buffer-should-auto-kill-p (buffer)
-;;   "Return non-nil if BUFFER should be auto-killed."
-;;   (let ((name (buffer-name buffer)))
-;;     (and (cl-some (lambda (pattern)
-;;                     (string-match-p pattern name))
-;;                   my-auto-kill-buffer-patterns)
-;;          (not (eq buffer (current-buffer))) ;; not the one you're using
-;;          (not (get-buffer-window buffer 'visible))))) ;; not visible anywhere
-
-;; (defun my-kill-unused-special-buffers ()
-;;   "Kill unused special buffers matching user-defined patterns."
-;;   (interactive)
-;;   (dolist (buffer (buffer-list))
-;;     (when (my-buffer-should-auto-kill-p buffer)
-;;       (kill-buffer buffer))))
-
-;; ;; Optional: Run it every minute
-;; (run-at-time "1 min" 60 #'my-kill-unused-special-buffers)
-
 (provide 'global-settings)
 ;;; global-settings.el ends here

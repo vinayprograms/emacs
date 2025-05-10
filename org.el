@@ -112,7 +112,7 @@
 	    ((org-agenda-overriding-header "=*= PROJECTS =*=")))
       (todo "WAITING"
 	    ((org-agenda-overriding-header "=*= WAITING FOR =*=")))
-      (todo "SPRINT-TASK"
+      (todo "ITEM"
 	    ((org-agenda-overriding-header "=*= SPRINT TASKS =*=")))
       (alltodo ""
 	       ((org-agenda-overriding-header "=*= ALL =*=")

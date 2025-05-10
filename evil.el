@@ -29,11 +29,11 @@
   ;; ---------- Custom commands used with leader key ----------
   (defvar my/leader-map (make-sparse-keymap)
     "My personal leader map.")
-  (define-key evil-normal-state-map (kbd "SPC") my/leader-map)
-  (define-key evil-visual-state-map (kbd "SPC") my/leader-map)
-  (define-key evil-motion-state-map (kbd "SPC") my/leader-map)
+  (define-key evil-normal-state-map (kbd ",") my/leader-map)
+  (define-key evil-visual-state-map (kbd ",") my/leader-map)
+  (define-key evil-motion-state-map (kbd ",") my/leader-map)
 	(with-eval-after-load 'org-agenda
-		(define-key org-agenda-mode-map (kbd "SPC") my/leader-map))
+		(define-key org-agenda-mode-map (kbd ",") my/leader-map))
 
   ;; ********** Bindings for 'window' specific functions *********
   (define-key my/leader-map (kbd "w") evil-window-map)
@@ -41,6 +41,7 @@
   (define-key evil-window-map (kbd "f") #'other-frame)
   (define-key evil-window-map (kbd "d") #'delete-window)
   (define-key evil-window-map (kbd "D") #'delete-frame)
+  (define-key evil-window-map (kbd "q") #'kill-buffer-and-window)
 
   ;; ********** Bindings for 'buffer' specific functions *********
   (defvar my/buffer-map (make-sparse-keymap))
@@ -49,6 +50,7 @@
   (define-key my/buffer-map (kbd "p") #'previous-buffer)
   (define-key my/buffer-map (kbd "d") #'kill-buffer)
   (define-key my/buffer-map (kbd "b") #'list-buffers)
+  (define-key my/buffer-map (kbd "q") #'kill-buffer-and-window)
 
   ;; ********** Bindings for 'help' specific functions *********
   (which-key-add-keymap-based-replacements my/leader-map "h" "help")
@@ -167,6 +169,6 @@
     (defalias 'evil-redirect-digit-argument 'ignore))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
-	(evil-define-key 'motion org-agenda-mode-map (kbd "SPC") my/leader-map))
+	(evil-define-key 'motion org-agenda-mode-map (kbd ",") my/leader-map))
 
 ;;; evil.el ends here
