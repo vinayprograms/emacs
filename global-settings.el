@@ -74,7 +74,7 @@
 
 ;; Start cursor at the position where it was when file was previously opened
 (use-package saveplace
-	:straight t
+	:ensure t
   :init
   (save-place-mode 1)
   :config

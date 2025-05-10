@@ -4,6 +4,6 @@
 
 ;;; Code:
 
-(use-package go-mode :straight t :defer t)
+(use-package go-mode :ensure t :defer t)
 
 ;;; go.el ends here

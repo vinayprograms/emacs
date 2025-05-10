@@ -8,7 +8,7 @@
 
 ;; ********** Org Mode, the best part of Emacs **********
 (use-package org
-  :straight t
+  :ensure t
 	:defer t
   :hook ((org-mode . org-bullets-mode)
          (org-mode . org-superstar-mode))
@@ -188,7 +188,7 @@
 
 ;; Org recurring tasks
 (use-package org-recur
-  :straight t
+  :ensure t
 	:defer t
   :hook ((org-mode . org-recur-mode)
          (org-agenda-mode . org-recur-agenda-mode))
@@ -201,24 +201,24 @@
 
 ;; Show org files as slides
 (use-package org-tree-slide
-	:straight t
+	:ensure t
 	:defer t
   :bind (("<C-s-left>" . org-tree-slide-move-previous-tree)
          ("<C-s-right>" . org-tree-slide-move-next-tree)))
 
-(use-package pdf-tools :straight t :defer t)
+(use-package pdf-tools :ensure t :defer t)
 
 ;; Note-taking extension
 (use-package org-noter
-	:straight t
+	:ensure t
 	:defer t
   :custom (org-noter-auto-save-last-location t))
 
 ;; Bullets and superstars for Org
-(use-package org-bullets :straight t :defer t)
+(use-package org-bullets :ensure t :defer t)
 
 (use-package org-superstar
-  :straight t
+  :ensure t
 	:defer t
   :hook (org-mode . org-superstar-mode)
   :config

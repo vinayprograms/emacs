@@ -49,24 +49,6 @@
 		   )
   "List of files containing my Emacs customizations.")
 
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-(setq straight-pull-recipe-repositories t)
-(straight-use-package 'use-package)
-
 ;; Load all customizations
 (load-files settings-root-path files-list)
 
@@ -75,8 +57,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-	 '(markdown-mode spinner s undo-tree go-projectile go-imenu go-errcheck go-dlv go-complete go-autocomplete go-add-tags go dotenv use-package))
+ '(package-selected-packages nil)
  '(warning-suppress-types '((comp))))
 
 ;;; init.el ends here

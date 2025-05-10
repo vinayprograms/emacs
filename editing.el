@@ -12,20 +12,20 @@
 
 ;; Code/text completion support
 (use-package company
-  :straight t
+  :ensure t
 	:defer t
   :bind ("M-SPC" . company-complete)
   :hook (prog-mode . company-mode))  ; Enable only in prog-mode
 
 ;; Simplify keyboard shortcuts
-(use-package hydra :straight t :defer t)
+(use-package hydra :ensure t :defer t)
 
 ;; Jump to visible text
-(use-package avy :straight t :defer t)
+(use-package avy :ensure t :defer t)
 
 ;; Autocomplete suggestions in minibuffer, load only after startup
 (use-package which-key
-  :straight t
+  :ensure t
   :defer t
   :config
   (which-key-mode))

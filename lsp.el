@@ -3,7 +3,7 @@
 ;;  LSP mode packages for all languages I work with.
 
 ;; Global LSP package
-(use-package lsp-mode :straight t :defer t)
+(use-package lsp-mode :ensure t :defer t)
 ;;   :config
 ;;   (setq gc-cons-threshold (* 100 1024 1024)
 ;; 	read-process-output-max (* 1024 1024)
@@ -22,7 +22,7 @@
 
 ;; Pop-up documentation and other UI features for LSP.
 (use-package lsp-ui
-  :straight t
+  :ensure t
 	:defer t
   :config
   (setq lsp-ui-doc-max-width 60))
@@ -144,7 +144,7 @@
 ;; Install golang using "brew install golang"
 ;; Install gopls server - "go get golang.org/x/tools/gopls"
 (use-package go-mode
-  :straight t
+  :ensure t
 	:defer t
   :config
   (setq lsp-gopls-server-path "~/go/bin/gopls")
@@ -205,7 +205,7 @@
 ;; Ruby
 ;; First run "sudo gem install solargraph"
 (use-package ruby-mode
-  :straight t
+  :ensure t
 	:defer t
   :config
   (add-hook 'ruby-mode-hook 'lsp))

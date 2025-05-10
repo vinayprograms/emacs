@@ -4,7 +4,7 @@
 
 ;; Global DAP package
 (use-package dap-mode
-  :straight t
+  :ensure t
 	:defer t
   :config
   (dap-mode 1)

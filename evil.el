@@ -7,7 +7,7 @@
 ;;; Code:
 
 (use-package evil
-  :straight t
+  :ensure t
   :init (setq evil-want-integration t
 	      evil-want-keybinding nil)
   :config (evil-mode t)
@@ -152,14 +152,14 @@
 
 (use-package evil-collection
   :after evil
-  :straight t
+  :ensure t
 	:defer t
   :init
   (evil-collection-init))
 
 (use-package evil-org
   :after evil org
-  :straight t
+  :ensure t
 	:defer t
   :hook ((org-mode . evil-org-mode))
   :init

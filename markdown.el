@@ -6,7 +6,7 @@
 ;;; Code:
 
 (use-package markdown-mode
-  :straight t
+  :ensure t
 	:defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
