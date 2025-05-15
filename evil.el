@@ -22,134 +22,104 @@
   ;; Remove interpretation of 'j' in insert mode.
   (define-key evil-insert-state-map (kbd "j") #'(lambda() (interactive) (insert "j")))
 
-  ;; Use '/' for local swiper search and 'g /' for global swiper search
-  (define-key evil-normal-state-map (kbd "/") #'swiper)
-  (define-key evil-normal-state-map (kbd "g /") #'swiper-all)
 
-  ;; ---------- Custom commands used with leader key ----------
-  (defvar my/leader-map (make-sparse-keymap)
-    "My personal leader map.")
-  (define-key evil-normal-state-map (kbd ",") my/leader-map)
-  (define-key evil-visual-state-map (kbd ",") my/leader-map)
-  (define-key evil-motion-state-map (kbd ",") my/leader-map)
-	(with-eval-after-load 'org-agenda
-		(define-key org-agenda-mode-map (kbd ",") my/leader-map))
-
-  ;; ********** Bindings for 'window' specific functions *********
-  (define-key my/leader-map (kbd "w") evil-window-map)
-  ;; Replicate "Cmd + `" (macOS)
-  (define-key evil-window-map (kbd "f") #'other-frame)
-  (define-key evil-window-map (kbd "d") #'delete-window)
-  (define-key evil-window-map (kbd "D") #'delete-frame)
-  (define-key evil-window-map (kbd "q") #'kill-buffer-and-window)
-
-  ;; ********** Bindings for 'buffer' specific functions *********
-  (defvar my/buffer-map (make-sparse-keymap))
-  (define-key my/leader-map (kbd "b") my/buffer-map)
-  (define-key my/buffer-map (kbd "n") #'next-buffer)
-  (define-key my/buffer-map (kbd "p") #'previous-buffer)
-  (define-key my/buffer-map (kbd "d") #'kill-buffer)
-  (define-key my/buffer-map (kbd "b") #'list-buffers)
-  (define-key my/buffer-map (kbd "q") #'kill-buffer-and-window)
-
-  ;; ********** Bindings for 'help' specific functions *********
-  (which-key-add-keymap-based-replacements my/leader-map "h" "help")
-  (defvar my/leader-help-map (make-sparse-keymap)
-    "My help keymap under , h")
-  (define-key my/leader-map (kbd "h") my/leader-help-map)
-  (define-key my/leader-help-map (kbd "f") #'counsel-describe-function)
-  (define-key my/leader-help-map (kbd "v") #'counsel-describe-variable)
-
-  ;; ********** Bindings for org-mode **********
+  ;; ********** Special functions for use with evil maps **********
   ;; (triggered only when org-mode is active)
   (defun my/org-insert-todo-heading-after ()
     "Insert a new TODO heading below the current line."
     (interactive)
-    (end-of-line)
-    (org-insert-todo-heading nil)  ; nil means insert after
+    (org-insert-todo-heading-respect-content nil)  ; nil means insert after
     (evil-insert-state))
 
   (defun my/org-insert-todo-heading-before ()
     "Insert a new TODO heading above the current line."
     (interactive)
-    (beginning-of-line)
     (org-insert-todo-heading t)    ; t means insert before
     (evil-insert-state))
 
   (defun my/org-insert-heading-after ()
     "Insert a new heading below the current line."
     (interactive)
-    (end-of-line)
-    (org-insert-heading nil)
+    (org-insert-heading-respect-content nil)
     (evil-insert-state))
 
   (defun my/org-insert-heading-before ()
     "Insert a new heading above the current line."
     (interactive)
-    (beginning-of-line)
     (org-insert-heading t)
     (evil-insert-state))
 
-  ;; Custom evil bindings for org-mode
-  (defun my/setup-org-evil-leader ()
-    (let ((map (make-sparse-keymap)))
-      (define-key my/leader-map (kbd "o") map)
-      ;; Org-mode / Org-agenda specific shortcuts.
-      (define-key map (kbd "a a") #'org-agenda)
-      (define-key map (kbd "f") #'org-agenda-later)
-      (define-key map (kbd "b") #'org-agenda-earlier)
-      (define-key map (kbd "<tab>") #'my/org-cycle-at-point)
-      (define-key map (kbd "a o") #'org-agenda-goto)
-      (define-key map (kbd "c c") #'org-ctrl-c-ctrl-c)
-      (define-key map (kbd "c k") #'org-kill-note-or-show-branches)
-      (define-key map (kbd "t") #'org-todo)
-      (define-key map (kbd "a t") #'org-agenda-todo)
-      ;; 'o' style (after)
-      (define-key map (kbd "o t") #'my/org-insert-todo-heading-after)
-      (define-key map (kbd "o h") #'my/org-insert-heading-after)
-      (define-key map (kbd "o i") #'org-insert-item)
-      ;; 'O' style (before)
-      (define-key map (kbd "O t") #'my/org-insert-todo-heading-before)
-      (define-key map (kbd "O h") #'my/org-insert-heading-before)
-      ;; Emacs-style (in-place)
-      (define-key map (kbd "I t") #'org-insert-todo-heading)
-      (define-key map (kbd "i t") #'org-insert-todo-heading-respect-content)
-      (define-key map (kbd "I h") #'org-insert-heading)
-      (define-key map (kbd "i h") #'org-insert-heading-respect-content)
- 
-      (define-key map (kbd "s") #'org-schedule)
-      (define-key map (kbd "a s") #'org-agenda-schedule)
-      (define-key map (kbd "d") #'org-deadline)
-      (define-key map (kbd "a d") #'org-agenda-deadline)
+  ;; ---------- Custom commands used with leader key ----------
+  (defvar my/leader-map (make-sparse-keymap)
+    "My personal leader map.")
+  (define-key evil-normal-state-map (kbd "SPC") my/leader-map)
+  (define-key evil-visual-state-map (kbd "SPC") my/leader-map)
+  (define-key evil-motion-state-map (kbd "SPC") my/leader-map)
+	(with-eval-after-load 'org-agenda
+		(define-key org-agenda-mode-map (kbd "SPC") my/leader-map))
 
-      (define-key map (kbd "c i") #'org-clock-in)
-      (define-key map (kbd "c o") #'org-clock-out)
-      ))
-  (add-hook 'org-mode-hook #'my/setup-org-evil-leader)
+  ;; Use '/' for local swiper search and '<leader> /' for global swiper search
+  (define-key evil-normal-state-map (kbd "/") #'swiper)
+  (define-key my/leader-map (kbd "/") #'swiper-all)
 
-  ;; ********** Custom evil bindings for AI/LLM **********
-  (defvar my/ai-map (make-sparse-keymap))
-  (define-key my/ai-map (kbd "q") #'chatgpt-shell-quick-insert)
-  (define-key my/ai-map (kbd "c") #'chatgpt-shell-prompt-compose)
-  (define-key my/ai-map (kbd "s") #'chatgpt-shell)
-  (define-key my/ai-map (kbd "d") #'chatgpt-shell-describe-code)
-  (define-key my/ai-map (kbd "g") #'chatgpt-shell-write-git-commit)
-  (define-key my/ai-map (kbd "<RET>") #'chatgpt-shell-prompt-compose-send-buffer)
-  (define-key my/leader-map (kbd "a") my/ai-map)
+  ;; ********** 'o' style (after) *********
+	(define-key my/leader-map (kbd "o t") #'my/org-insert-todo-heading-after)
+	(define-key my/leader-map (kbd "o h") #'my/org-insert-heading-after)
+	(define-key my/leader-map (kbd "o i") #'org-insert-item)
+  ;; ********** 'O' style (before) *********
+	(define-key my/leader-map (kbd "O t") #'my/org-insert-todo-heading-before)
+	(define-key my/leader-map (kbd "O h") #'my/org-insert-heading-before)
 
-  ;; ********** Bindings for ivy minibuffer **********
-  (with-eval-after-load 'ivy
-    (define-key ivy-minibuffer-map (kbd "C-j") #'ivy-next-line)
-    (define-key ivy-minibuffer-map (kbd "C-k") #'ivy-previous-line)
-    (define-key ivy-minibuffer-map (kbd "M-j") #'ivy-next-line)
-    (define-key ivy-minibuffer-map (kbd "M-k") #'ivy-previous-line))
- 
-  ;; ********** Other bindings **********
-  (define-key my/leader-map (kbd ".") #'execute-extended-command)
-  (define-key my/leader-map (kbd "x") ctl-x-map)
-  (define-key my/leader-map (kbd "c") mode-specific-map)
-  (evil-ex-define-cmd "e" #'counsel-find-file)
-  (define-key evil-normal-state-map (kbd "z ;") #'org-cycle)
+	;; ********** search *********
+  (define-key my/leader-map (kbd "/") #'swiper-all)
+
+  ;; ********** insert / add *********
+  (define-key my/leader-map (kbd "i l") #'org-insert-structure-template) ;; insert literate code block
+  (define-key my/leader-map (kbd "i c") #'org-clock-in)
+  (define-key my/leader-map (kbd "i C") #'org-clock-out)
+  (define-key my/leader-map (kbd "i d") #'org-deadline)
+  (define-key my/leader-map (kbd "i s") #'org-schedule)
+  (define-key my/leader-map (kbd "D") #'org-agenda-deadline)
+  (define-key my/leader-map (kbd "S") #'org-agenda-schedule)
+
+  ;; ********** show *********
+  (define-key my/leader-map (kbd "s w") #'delete-other-windows) ;; Focus on current window
+	(define-key my/leader-map (kbd "s o") #'other-window)
+  (define-key my/leader-map (kbd "s f") #'other-frame)
+  (define-key my/leader-map (kbd "s n") #'next-buffer)
+  (define-key my/leader-map (kbd "s p") #'previous-buffer)
+  (define-key my/leader-map (kbd "s b") #'list-buffers)
+  (define-key my/leader-map (kbd "s a") #'org-agenda)
+  (define-key my/leader-map (kbd "N") #'org-agenda-later)
+  (define-key my/leader-map (kbd "P") #'org-agenda-earlier)
+  (define-key my/leader-map (kbd "G") #'org-agenda-goto)
+  (define-key my/leader-map (kbd "s z") #'my/org-cycle-at-point)
+
+  ;; ********** change / modify *********
+  (define-key my/leader-map (kbd "c T") #'org-agenda-todo)
+  (define-key my/leader-map (kbd "c t") #'org-todo)
+  (define-key my/leader-map (kbd "c c") #'org-ctrl-c-ctrl-c)
+  (define-key my/leader-map (kbd "c k") #'org-kill-note-or-show-branches)
+  (define-key my/leader-map (kbd "c l") #'org-edit-special) ;; edit literate block
+
+  ;; ********** delete *********
+  (define-key my/leader-map (kbd "d w") #'delete-window)
+  (define-key my/leader-map (kbd "d f") #'delete-frame)
+  (define-key my/leader-map (kbd "d k") #'kill-buffer-and-window)
+  (define-key my/leader-map (kbd "d l") #'org-edit-src-abort) ;; discard and exit literate block
+
+  ;; ********** kill *********
+  (define-key my/leader-map (kbd "k b") #'kill-buffer)
+  (define-key my/leader-map (kbd "k k") #'kill-buffer-and-window)
+  (define-key my/leader-map (kbd "k l") #'org-edit-src-exit) ;; kill literate block
+
+  ;; ********** execute *********
+  (define-key my/leader-map (kbd "x x") #'counsel-M-x)
+  (define-key my/leader-map (kbd "x f") #'counsel-find-file)
+
+  ;; ********** help *********
+  (define-key my/leader-map (kbd "h f") #'describe-function)
+  (define-key my/leader-map (kbd "h v") #'describe-variable)
   )
 
 (use-package evil-collection
@@ -169,6 +139,6 @@
     (defalias 'evil-redirect-digit-argument 'ignore))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
-	(evil-define-key 'motion org-agenda-mode-map (kbd ",") my/leader-map))
+	(evil-define-key 'motion org-agenda-mode-map (kbd "SPC") my/leader-map))
 
 ;;; evil.el ends here
