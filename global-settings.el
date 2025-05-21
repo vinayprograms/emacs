@@ -27,9 +27,6 @@
 ;; Highlighting matching parentheses across all modes.
 (show-paren-mode t)
 
-;; Highlight the current line
-(global-hl-line-mode 1)
-
 ;; Show relative line number in programming buffers
 (setq display-line-numbers-type 'relative)
 
