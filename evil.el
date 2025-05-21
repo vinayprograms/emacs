@@ -34,7 +34,8 @@
   (defun my/org-insert-todo-heading-before ()
     "Insert a new TODO heading above the current line."
     (interactive)
-    (org-insert-todo-heading t)    ; t means insert before
+		(beginning-of-visual-line)
+		(org-insert-todo-heading t)    ; t means insert before
     (evil-insert-state))
 
   (defun my/org-insert-heading-after ()
@@ -46,6 +47,7 @@
   (defun my/org-insert-heading-before ()
     "Insert a new heading above the current line."
     (interactive)
+		(beginning-of-visual-line)
     (org-insert-heading t)
     (evil-insert-state))
 
@@ -81,7 +83,6 @@
   ;; ********** 'o' style (after) *********
 	(define-key my/leader-map (kbd "o t") #'my/org-insert-todo-heading-after)
 	(define-key my/leader-map (kbd "o h") #'my/org-insert-heading-after)
-	(define-key my/leader-map (kbd "o i") #'org-insert-item)
   ;; ********** 'O' style (before) *********
 	(define-key my/leader-map (kbd "O t") #'my/org-insert-todo-heading-before)
 	(define-key my/leader-map (kbd "O h") #'my/org-insert-heading-before)
