@@ -49,6 +49,22 @@
     (org-insert-heading t)
     (evil-insert-state))
 
+	(defun my/surround-text ()
+		"Surround region or word at point with a typed character, no prompt."
+		(interactive)
+		(let ((char (read-char))) ;; Wait for a single keypress without prompt
+			(let* ((beg (if (use-region-p)
+											(region-beginning)
+										(car (bounds-of-thing-at-point 'word))))
+						 (end (if (use-region-p)
+											(region-end)
+										(cdr (bounds-of-thing-at-point 'word)))))
+				(save-excursion
+					(goto-char end)
+					(insert char)
+					(goto-char beg)
+					(insert char)))))
+
   ;; ---------- Custom commands used with leader key ----------
   (defvar my/leader-map (make-sparse-keymap)
     "My personal leader map.")
@@ -69,6 +85,9 @@
   ;; ********** 'O' style (before) *********
 	(define-key my/leader-map (kbd "O t") #'my/org-insert-todo-heading-before)
 	(define-key my/leader-map (kbd "O h") #'my/org-insert-heading-before)
+
+	;; ********** surround text with character *********
+	(define-key evil-visual-state-map (kbd "s") #'my/surround-text)
 
 	;; ********** search *********
   (define-key my/leader-map (kbd "/") #'swiper-all)

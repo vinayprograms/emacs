@@ -104,12 +104,6 @@
 	    ((org-agenda-overriding-header "=*= GOALS =*=")))
       (todo "STARTED"
 	    ((org-agenda-overriding-header "=*= STARTED =*=")))
-      (todo "NEXT"
-	    ((org-agenda-overriding-header "=*= NEXT ACTIONS =*=")))
-      (todo "RECUR"
-	    ((org-agenda-overriding-header "=*= RECURRING =*=")))
-      (todo "PROJ"
-	    ((org-agenda-overriding-header "=*= PROJECTS =*=")))
       (todo "WAITING"
 	    ((org-agenda-overriding-header "=*= WAITING FOR =*=")))
       (todo "ITEM"
