@@ -87,14 +87,12 @@
 	(define-key my/leader-map (kbd "O t") #'my/org-insert-todo-heading-before)
 	(define-key my/leader-map (kbd "O h") #'my/org-insert-heading-before)
 
-	;; ********** surround text with character *********
-	(define-key evil-visual-state-map (kbd "s") #'my/surround-text)
-
 	;; ********** search *********
   (define-key my/leader-map (kbd "/") #'swiper-all)
 
   ;; ********** insert / add *********
-  (define-key my/leader-map (kbd "i l") #'org-insert-structure-template) ;; insert literate code block
+  (define-key my/leader-map (kbd "i t b") #'org-insert-structure-template)
+  (define-key my/leader-map (kbd "i t c") #'org-capture)
   (define-key my/leader-map (kbd "i c") #'org-clock-in)
   (define-key my/leader-map (kbd "i C") #'org-clock-out)
   (define-key my/leader-map (kbd "i d") #'org-deadline)
@@ -103,17 +101,17 @@
   (define-key my/leader-map (kbd "S") #'org-agenda-schedule)
 
   ;; ********** show *********
-  (define-key my/leader-map (kbd "s w") #'delete-other-windows) ;; Focus on current window
-	(define-key my/leader-map (kbd "s o") #'other-window)
-  (define-key my/leader-map (kbd "s f") #'other-frame)
-  (define-key my/leader-map (kbd "s n") #'next-buffer)
-  (define-key my/leader-map (kbd "s p") #'previous-buffer)
-  (define-key my/leader-map (kbd "s b") #'list-buffers)
-  (define-key my/leader-map (kbd "s a") #'org-agenda)
-  (define-key my/leader-map (kbd "N") #'org-agenda-later)
-  (define-key my/leader-map (kbd "P") #'org-agenda-earlier)
-  (define-key my/leader-map (kbd "G") #'org-agenda-goto)
-  (define-key my/leader-map (kbd "s z") #'my/org-cycle-at-point)
+  (define-key my/leader-map (kbd "v w") #'delete-other-windows) ;; Focus on current window
+	(define-key my/leader-map (kbd "v o w") #'other-window)
+  (define-key my/leader-map (kbd "v o f") #'other-frame)
+  (define-key my/leader-map (kbd "v n b") #'next-buffer)
+  (define-key my/leader-map (kbd "v p b") #'previous-buffer)
+  (define-key my/leader-map (kbd "v b") #'list-buffers)
+  (define-key my/leader-map (kbd "v a") #'org-agenda)
+  (define-key my/leader-map (kbd "v n a") #'org-agenda-later)
+  (define-key my/leader-map (kbd "v p a") #'org-agenda-earlier)
+  (define-key my/leader-map (kbd "v g") #'my-org-agenda-switch-to)
+  (define-key my/leader-map (kbd "v c") #'my/org-cycle-at-point)
 
   ;; ********** change / modify *********
   (define-key my/leader-map (kbd "c T") #'org-agenda-todo)
@@ -121,6 +119,7 @@
   (define-key my/leader-map (kbd "c c") #'org-ctrl-c-ctrl-c)
   (define-key my/leader-map (kbd "c k") #'org-kill-note-or-show-branches)
   (define-key my/leader-map (kbd "c l") #'org-edit-special) ;; edit literate block
+	(define-key evil-visual-state-map (kbd "c s") #'my/surround-text)
 
   ;; ********** delete *********
   (define-key my/leader-map (kbd "d w") #'delete-window)
