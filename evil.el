@@ -15,13 +15,15 @@
   ;; Change evil's redo mapping
   (evil-set-undo-system 'undo-redo)
 
-	;;(evil-set-leader 'normal (kbd "SPC"))
+	;; (evil-set-leader 'normal (kbd "SPC"))
 
   (define-key evil-normal-state-map (kbd "R") 'evil-redo)
 
   ;; Remove interpretation of 'j' in insert mode.
   (define-key evil-insert-state-map (kbd "j") #'(lambda() (interactive) (insert "j")))
-
+	;; Make '$' go to actual end of line instead of end of soft-wrapped line
+	(define-key evil-normal-state-map (kbd "$") 'end-of-line)
+	(define-key evil-visual-state-map (kbd "$") 'end-of-line)
 
   ;; ********** Special functions for use with evil maps **********
   ;; (triggered only when org-mode is active)
@@ -95,8 +97,9 @@
   (define-key my/leader-map (kbd "i t c") #'org-capture)
   (define-key my/leader-map (kbd "i c") #'org-clock-in)
   (define-key my/leader-map (kbd "i C") #'org-clock-out)
-  (define-key my/leader-map (kbd "i d") #'org-deadline)
-  (define-key my/leader-map (kbd "i s") #'org-schedule)
+  (define-key my/leader-map (kbd "a d") #'org-deadline)
+  (define-key my/leader-map (kbd "a s") #'org-schedule)
+	(define-key evil-visual-state-map (kbd "a a") #'my/surround-text)
   (define-key my/leader-map (kbd "D") #'org-agenda-deadline)
   (define-key my/leader-map (kbd "S") #'org-agenda-schedule)
 
@@ -119,7 +122,8 @@
   (define-key my/leader-map (kbd "c c") #'org-ctrl-c-ctrl-c)
   (define-key my/leader-map (kbd "c k") #'org-kill-note-or-show-branches)
   (define-key my/leader-map (kbd "c l") #'org-edit-special) ;; edit literate block
-	(define-key evil-visual-state-map (kbd "c s") #'my/surround-text)
+  (define-key my/leader-map (kbd "c s") #'org-schedule)
+  (define-key my/leader-map (kbd "c d") #'org-deadline)
 
   ;; ********** delete *********
   (define-key my/leader-map (kbd "d w") #'delete-window)
