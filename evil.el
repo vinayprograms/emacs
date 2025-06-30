@@ -68,7 +68,17 @@
 					(insert char)
 					(goto-char beg)
 					(insert char)))))
-
+	;; ---------- Customizations (non-leader) ----------
+  (define-key evil-normal-state-map (kbd "g h") #'evil-beginning-of-visual-line)
+  (define-key evil-normal-state-map (kbd "g l") #'evil-end-of-visual-line)
+  (define-key evil-normal-state-map (kbd "H") #'evil-first-non-blank)
+  (define-key evil-normal-state-map (kbd "L") #'evil-end-of-line)
+  (define-key evil-visual-state-map (kbd "g h") #'evil-beginning-of-visual-line)
+  (define-key evil-visual-state-map (kbd "g l") #'evil-end-of-visual-line)
+  (define-key evil-visual-state-map (kbd "H") #'evil-first-non-blank)
+  (define-key evil-visual-state-map (kbd "L") #'evil-end-of-line)
+  (define-key evil-motion-state-map (kbd "H") #'evil-first-non-blank)
+  (define-key evil-motion-state-map (kbd "L") #'evil-end-of-line)
   ;; ---------- Custom commands used with leader key ----------
   (defvar my/leader-map (make-sparse-keymap)
     "My personal leader map.")
