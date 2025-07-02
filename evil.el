@@ -63,10 +63,40 @@
   (defun my/org-insert-subheading-after ()
     "Insert a new heading below the current line."
     (interactive)
-    (org-insert-heading-respect-content nil)
+    (org-insert-heading-respect-content nil)  ; nil means insert after
 		(org-demote-subtree)
     (evil-insert-state))
 
+	(defun my/org-insert-bullet-after ()
+    "Insert a new heading below the current line."
+    (interactive)
+		(org-end-of-line)
+    (org-insert-item nil)
+    (evil-insert-state))
+
+	(defun my/org-insert-checkbox-after ()
+    "Insert a new heading below the current line."
+    (interactive)
+		(org-end-of-line)
+    (org-insert-item t)
+    (evil-insert-state))
+
+	(defun my/org-insert-subbullet-after ()
+    "Insert a new heading below the current line."
+    (interactive)
+		(org-end-of-line)
+    (org-insert-item nil)
+		(org-indent-item)
+    (evil-insert-state))
+
+	(defun my/org-insert-subcheckbox-after ()
+    "Insert a new heading below the current line."
+    (interactive)
+		(org-end-of-line)
+    (org-insert-item t)
+		(org-indent-item)
+    (evil-insert-state))
+	
 	(defun my/surround-text ()
 		"Surround region or word at point with a typed character, no prompt."
 		(interactive)
@@ -109,8 +139,12 @@
   ;; ********** 'o' style (after) *********
 	(define-key my/leader-map (kbd "o t") #'my/org-insert-todo-heading-after)
 	(define-key my/leader-map (kbd "o h") #'my/org-insert-heading-after)
+	(define-key my/leader-map (kbd "o b") #'my/org-insert-bullet-after)
+	(define-key my/leader-map (kbd "o c") #'my/org-insert-checkbox-after)
 	(define-key my/leader-map (kbd "o i t") #'my/org-insert-todo-subheading-after)
 	(define-key my/leader-map (kbd "o i h") #'my/org-insert-subheading-after)
+	(define-key my/leader-map (kbd "o i b") #'my/org-insert-subbullet-after)
+	(define-key my/leader-map (kbd "o i c") #'my/org-insert-subcheckbox-after)
   ;; ********** 'O' style (before) *********
 	(define-key my/leader-map (kbd "O t") #'my/org-insert-todo-heading-before)
 	(define-key my/leader-map (kbd "O h") #'my/org-insert-heading-before)
