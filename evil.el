@@ -53,6 +53,20 @@
     (org-insert-heading t)
     (evil-insert-state))
 
+  (defun my/org-insert-todo-subheading-after ()
+    "Insert a new TODO heading below the current line."
+    (interactive)
+    (org-insert-todo-heading-respect-content nil)  ; nil means insert after
+		(org-demote-subtree)
+    (evil-insert-state))
+
+  (defun my/org-insert-subheading-after ()
+    "Insert a new heading below the current line."
+    (interactive)
+    (org-insert-heading-respect-content nil)
+		(org-demote-subtree)
+    (evil-insert-state))
+
 	(defun my/surround-text ()
 		"Surround region or word at point with a typed character, no prompt."
 		(interactive)
@@ -95,6 +109,8 @@
   ;; ********** 'o' style (after) *********
 	(define-key my/leader-map (kbd "o t") #'my/org-insert-todo-heading-after)
 	(define-key my/leader-map (kbd "o h") #'my/org-insert-heading-after)
+	(define-key my/leader-map (kbd "o i t") #'my/org-insert-todo-subheading-after)
+	(define-key my/leader-map (kbd "o i h") #'my/org-insert-subheading-after)
   ;; ********** 'O' style (before) *********
 	(define-key my/leader-map (kbd "O t") #'my/org-insert-todo-heading-before)
 	(define-key my/leader-map (kbd "O h") #'my/org-insert-heading-before)
