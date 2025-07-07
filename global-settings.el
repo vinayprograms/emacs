@@ -64,6 +64,15 @@
 ;; Word-wrapping
 (global-visual-line-mode)
 
+;; Save all open buffers periodically
+(defun my/save-all-buffers-periodically ()
+	"Save all modified buffers that visit a file"
+	(interactive)
+	(save-some-buffers t)) ;; 't' saves all file-visiting buffers
+(setq auto-save-timeout 30) ;; autosave every 30s
+(run-with-idle-timer auto-save-timeout t 'my/save-all-buffers-periodically)
+
+
 ;; Install `use-package` if not already installed
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
